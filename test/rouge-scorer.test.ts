@@ -73,4 +73,74 @@ describe("RougeScorer", () => {
       fmeasure: 0.8,
     });
   });
+
+  it("scores rouge2 with bigram overlap", () => {
+    const scorer = new RougeScorer(["rouge2"]);
+
+    const scores = scorer.score("testing one two", "testing one");
+
+    expect(scores.rouge2).toEqual({
+      precision: 1,
+      recall: 1 / 2,
+      fmeasure: 2 / 3,
+    });
+  });
+
+  it("scores rouge2 using adjacent token pairs instead of word sets", () => {
+    const scorer = new RougeScorer(["rouge2"]);
+
+    const scores = scorer.score("the cat sat", "cat the");
+
+    expect(scores.rouge2).toEqual({
+      precision: 0,
+      recall: 0,
+      fmeasure: 0,
+    });
+  });
+
+  it("returns zero rouge2 scores when either side has fewer than two tokens", () => {
+    const scorer = new RougeScorer(["rouge2"]);
+
+    expect(scorer.score("the cat", "the").rouge2).toEqual({
+      precision: 0,
+      recall: 0,
+      fmeasure: 0,
+    });
+    expect(scorer.score("the", "the cat").rouge2).toEqual({
+      precision: 0,
+      recall: 0,
+      fmeasure: 0,
+    });
+  });
+
+  it("scores rouge2 using bigram counts instead of unique bigram sets", () => {
+    const scorer = new RougeScorer(["rouge2"]);
+
+    const scores = scorer.score("the cat the cat", "the cat the dog");
+
+    expect(scores.rouge2).toEqual({
+      precision: 2 / 3,
+      recall: 2 / 3,
+      fmeasure: 2 / 3,
+    });
+  });
+
+  it("scores multiple n-gram rouge types in one pass", () => {
+    const scorer = new RougeScorer(["rouge1", "rouge2"]);
+
+    const scores = scorer.score("testing one two", "testing one");
+
+    expect(scores).toEqual({
+      rouge1: {
+        precision: 1,
+        recall: 2 / 3,
+        fmeasure: 0.8,
+      },
+      rouge2: {
+        precision: 1,
+        recall: 1 / 2,
+        fmeasure: 2 / 3,
+      },
+    });
+  });
 });

@@ -28,10 +28,12 @@ export class RougeScorer<const T extends readonly RougeType[]> {
     const scores: Partial<Record<RougeType, Score>> = {};
 
     for (const rougeType of this.rougeTypes) {
-      if (rougeType === "rouge1") {
+      const ngramSize = ngramSizeForRougeType(rougeType);
+
+      if (ngramSize !== undefined) {
         scores[rougeType] = scoreNgrams(
-          createNgrams(referenceTokens, 1),
-          createNgrams(candidateTokens, 1)
+          createNgrams(referenceTokens, ngramSize),
+          createNgrams(candidateTokens, ngramSize)
         );
         continue;
       }
@@ -41,4 +43,16 @@ export class RougeScorer<const T extends readonly RougeType[]> {
 
     return scores as ScoreByRougeType<T[number]>;
   }
+}
+
+function ngramSizeForRougeType(rougeType: RougeType): number | undefined {
+  if (rougeType === "rouge1") {
+    return 1;
+  }
+
+  if (rougeType === "rouge2") {
+    return 2;
+  }
+
+  return undefined;
 }

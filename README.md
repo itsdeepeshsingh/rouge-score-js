@@ -9,13 +9,13 @@ This package is in early development.
 Currently implemented:
 
 - `rouge1`
+- `rouge2`
 - strict TypeScript types
 - Google-compatible default tokenization without stemming
 - ESM and CommonJS build outputs
 
 Planned:
 
-- `rouge2`
 - `rougeL`
 - stemming support
 - additional compatibility tests against Google's Python implementation
