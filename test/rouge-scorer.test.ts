@@ -179,4 +179,25 @@ describe("RougeScorer", () => {
       fmeasure: 1 / 3,
     });
   });
+
+  it("scoreMulti selects the reference with the highest f-measure per rouge type", () => {
+    const scorer = new RougeScorer(["rouge1", "rouge2", "rougeL"]);
+
+    const scores = scorer.scoreMulti(
+      ["first text", "first something"],
+      "text first"
+    );
+
+    expect(scores.rouge1.fmeasure).toBe(1);
+    expect(scores.rouge2.fmeasure).toBe(0);
+    expect(scores.rougeL.fmeasure).toBe(0.5);
+  });
+
+  it("scoreMulti rejects an empty reference list", () => {
+    const scorer = new RougeScorer(["rouge1"]);
+
+    expect(() => scorer.scoreMulti([], "candidate")).toThrow(
+      "scoreMulti requires at least one reference"
+    );
+  });
 });

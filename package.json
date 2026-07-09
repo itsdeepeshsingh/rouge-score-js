@@ -3,6 +3,22 @@
   "version": "0.0.0",
   "description": "TypeScript implementation of ROUGE evaluation metrics for text summarization.",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsdeepeshsingh/rouge-score-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/itsdeepeshsingh/rouge-score-js/issues"
+  },
+  "homepage": "https://github.com/itsdeepeshsingh/rouge-score-js#readme",
+  "keywords": [
+    "rouge",
+    "rouge-score",
+    "summarization",
+    "evaluation",
+    "nlp",
+    "typescript"
+  ],
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -30,6 +46,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
+    "pack:check": "npm pack --dry-run --cache .npm-cache",
+    "prepack": "npm run build",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"

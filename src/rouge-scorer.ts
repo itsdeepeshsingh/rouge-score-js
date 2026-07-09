@@ -48,6 +48,40 @@ export class RougeScorer<const T extends readonly RougeType[]> {
 
     return scores as ScoreByRougeType<T[number]>;
   }
+
+  public scoreMulti(
+    references: readonly string[],
+    candidate: string
+  ): ScoreByRougeType<T[number]> {
+    if (references.length === 0) {
+      throw new Error("scoreMulti requires at least one reference");
+    }
+
+    const scoresByReference = references.map((reference) =>
+      this.score(reference, candidate)
+    );
+    const bestScores: Partial<Record<RougeType, Score>> = {};
+
+    for (const rougeType of this.rougeTypes) {
+      let bestScore: Score | undefined;
+
+      for (const scores of scoresByReference) {
+        const score = scores[rougeType as T[number]];
+
+        if (bestScore === undefined || score.fmeasure > bestScore.fmeasure) {
+          bestScore = score;
+        }
+      }
+
+      if (bestScore === undefined) {
+        throw new Error(`Unable to score rouge type: ${rougeType}`);
+      }
+
+      bestScores[rougeType] = bestScore;
+    }
+
+    return bestScores as ScoreByRougeType<T[number]>;
+  }
 }
 
 function ngramSizeForRougeType(rougeType: RougeType): number | undefined {
