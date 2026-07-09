@@ -10,13 +10,13 @@ Currently implemented:
 
 - `rouge1`
 - `rouge2`
+- `rougeL`
 - strict TypeScript types
 - Google-compatible default tokenization without stemming
 - ESM and CommonJS build outputs
 
 Planned:
 
-- `rougeL`
 - stemming support
 - additional compatibility tests against Google's Python implementation
 

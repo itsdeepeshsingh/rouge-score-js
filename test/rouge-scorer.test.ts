@@ -143,4 +143,40 @@ describe("RougeScorer", () => {
       },
     });
   });
+
+  it("scores rougeL with consecutive longest common subsequence", () => {
+    const scorer = new RougeScorer(["rougeL"]);
+
+    const scores = scorer.score("testing one two", "testing one");
+
+    expect(scores.rougeL).toEqual({
+      precision: 1,
+      recall: 2 / 3,
+      fmeasure: 0.8,
+    });
+  });
+
+  it("scores rougeL with non-consecutive longest common subsequence", () => {
+    const scorer = new RougeScorer(["rougeL"]);
+
+    const scores = scorer.score("testing one two", "testing two");
+
+    expect(scores.rougeL).toEqual({
+      precision: 1,
+      recall: 2 / 3,
+      fmeasure: 0.8,
+    });
+  });
+
+  it("scores rougeL using token order", () => {
+    const scorer = new RougeScorer(["rougeL"]);
+
+    const scores = scorer.score("the cat sat", "sat cat the");
+
+    expect(scores.rougeL).toEqual({
+      precision: 1 / 3,
+      recall: 1 / 3,
+      fmeasure: 1 / 3,
+    });
+  });
 });

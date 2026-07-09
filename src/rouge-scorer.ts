@@ -1,4 +1,4 @@
-import { createNgrams, scoreNgrams } from "./scoring.js";
+import { createNgrams, scoreLcs, scoreNgrams } from "./scoring.js";
 import type { Score, ScoreByRougeType } from "./scoring.js";
 import { DefaultTokenizer } from "./tokenizers.js";
 import type { Tokenizer } from "./tokenizers.js";
@@ -35,6 +35,11 @@ export class RougeScorer<const T extends readonly RougeType[]> {
           createNgrams(referenceTokens, ngramSize),
           createNgrams(candidateTokens, ngramSize)
         );
+        continue;
+      }
+
+      if (rougeType === "rougeL") {
+        scores[rougeType] = scoreLcs(referenceTokens, candidateTokens);
         continue;
       }
 
