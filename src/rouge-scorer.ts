@@ -9,7 +9,7 @@ export interface RougeScorerOptions {
   tokenizer?: Tokenizer;
 }
 
-export class RougeScorer<const T extends readonly RougeType[]> {
+export class RougeScorer<T extends readonly RougeType[]> {
   private readonly tokenizer: Tokenizer;
 
   public constructor(

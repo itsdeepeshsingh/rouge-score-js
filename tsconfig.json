@@ -15,8 +15,7 @@
     "rootDir": ".",
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES2022",
-    "verbatimModuleSyntax": true
+    "target": "ES2022"
   },
   "include": ["src", "test", "vitest.config.ts", "eslint.config.js"]
 }
