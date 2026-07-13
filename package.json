@@ -1,6 +1,6 @@
 {
   "name": "rouge-score-js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "TypeScript implementation of ROUGE evaluation metrics for text summarization.",
   "license": "Apache-2.0",
   "repository": {
